@@ -9,9 +9,9 @@ const {
     deleteReaction
 } = require('../../controllers').thoughtFunctions;
 
-router.route('/').get(getAllThoughts).post()
-router.route('/:id').get().put().delete();
-router.route('/:thoughtId/reactions').post().delete();
+router.route('/').get(getAllThoughts).post(postNewThought)
+router.route('/:id').get(getOneThought).put(putThought).delete(deleteThought);
+router.route('/:thoughtId/reactions').post(postReaction).delete(deleteReaction);
 
 
 module.exports= router;
