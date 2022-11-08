@@ -1,11 +1,9 @@
-const { Schema, Types } = require('mongoose');
+const { Schema, model } = require('mongoose');
+const { emailTest } = require('../utils/modelHelper')
 
-function emailTest(email){
-    const regex =  '/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/'
-    return regex.test(email);
-};
 
-const response = new Schema({
+const userSchema = new Schema(
+    {
     username:{
         type: String,
         required: 'Username must not be empty.',
@@ -16,8 +14,28 @@ const response = new Schema({
         type: String,
         required: 'Email must not be empty.',
         unique: 'Email must be unique.',
-        validate: [emailTest, 'Please fill out a valid email.']
+        validate: [emailTest, 'Please fill out a valid email.'] //this may not work
+    },
+    thoughts: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: 'thought'
+        }
+    ],
+    friends:[ this ] //This might not work 
+    },
+    {
+    toJSON: {
+        virtuals: true
+    },
+    id: false
     }
-},{});
+);
 
-module.exports = response;
+userSchema.virtual('friendCount').get(function(){
+    return this.friends.length;
+});
+
+const User = model('User', userSchema)
+
+module.exports = User;
