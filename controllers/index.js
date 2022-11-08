@@ -1,4 +1,4 @@
 const thoughtFunction = require('./thoughtController');
-const userFunction = require('./userController');
+const userFunctions = require('./userController');
 
-module.exports= { ...thoughtFunction, ...userFunction };
+module.exports=  userFunctions, thoughtFunction ;
