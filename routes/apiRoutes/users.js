@@ -10,8 +10,8 @@ const {
 } = require('../../controllers').userFunctions;
 
 
-router.route('/').get(getAllUser).post();
-router.route('/:userId').get(getOneUser).put().delete();
-router.route('/:userId/friends/:friendId').post().delete();
+router.route('/').get(getAllUser).post(postNewUser);
+router.route('/:userId').get(getOneUser).put(putOneUser).delete(deleteOneUser);
+router.route('/:userId/friends/:friendId').post(postNewFriend).delete(deleteFriend);
 
 module.exports= router;

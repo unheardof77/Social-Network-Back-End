@@ -3,8 +3,8 @@ function formatTime(date){
 };
 
 function emailTest(email){
-    const regex =  '/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/'
-    return regex.test(email);
+    const r = /^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/;
+    return r.test(email);
 };
 
 module.exports= {formatTime, emailTest};
