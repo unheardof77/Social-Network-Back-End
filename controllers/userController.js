@@ -3,16 +3,17 @@ const { User } = require('../models');
 
 async function getAllUser(req, res){
     try{
-        const users = await User.find({});
+        const users = await User.find().select('-__v').populate("thoughts").populate('friends');
         res.status(200).json(users);
     }catch(err){
+        console.log(err)
         res.status(500).json(err)
     }
 };
 
 async function getOneUser(req, res){
     try{
-        const user = await User.findOne({_id: req.params.userId});
+        const user = await User.findOne({_id: req.params.userId}).select('-__v').populate('thoughts').populate('friends');
         res.status(200).json(user);
     }catch(err){
         res.status(500).json(err)

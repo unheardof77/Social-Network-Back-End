@@ -22,6 +22,7 @@ async function getOneThought(req, res){
 async function postNewThought(req, res){
     try{
         const newThought = await Thought.create(req.body);
+        await User.findOneAndUpdate({_id: req.params.id}, {$addToSet: {thoughts: newThought._id}})
         res.status(200).json(newThought);
     }catch(err){
         res.status(500).json(err);
@@ -48,7 +49,7 @@ async function deleteThought(req, res){
 
 async function postReaction(req, res){
     try{
-        const reaction = await Thought.findOneAndUpdate({_id: req.params.id}, {$addToSet:{reactions: req.body}}, {new: true});
+        const reaction = await Thought.findOneAndUpdate({_id: req.params.thoughtId}, {$addToSet:{reactions: req.body}}, {new: true});
         res.status(200).json(reaction);
     }catch(err){
         res.status(500).json(err);
@@ -57,7 +58,7 @@ async function postReaction(req, res){
 
 async function deleteReaction(req, res){
     try{
-        const deletedReaction = await Thought.findOneAndUpdate({_id: req.params.id}, {$pull:{reactions: req.body}}, {new: true});
+        const deletedReaction = await Thought.findOneAndUpdate({_id: req.params.thoughtId}, {$pull:{reactions: req.body}}, {new: true});
         res.status(200).json(deletedReaction);
     }catch(err){
         res.status(500).json(err);
